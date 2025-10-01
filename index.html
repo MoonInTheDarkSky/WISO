@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WISO The Translator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Theme Toggle -->
+        <header class="header">
+            <div class="header-content">
+                <div class="branding">
+                    <h1 class="title">WISO THE TRANSLATOR</h1>
+                    <p class="subtitle">Professional file and text translation with AI precision</p>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon" id="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-indicator ready" id="status-indicator">
+                <span class="status-icon">✅</span>
+                <span class="status-text">Ready</span>
+            </div>
+        </div>
+
+        <!-- Two Tabs Only -->
+        <div class="tab-navigation">
+            <div class="tab-track">
+                <div class="tab-indicator" id="tab-indicator"></div>
+                <button class="tab-button active" data-tab="text">
+                    📝 Text Translation
+                </button>
+                <button class="tab-button" data-tab="file">
+                    📁 File Translation
+                </button>
+            </div>
+        </div>
+
+        <!-- Text Translation Tab -->
+        <div class="tab-content active" id="text-tab">
+            <div class="content-grid-text">
+                <div class="left-column">
+                    <!-- Text Input Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Text Input</h3>
+                            <span class="character-count" id="char-count">0 / 5000</span>
+                        </div>
+                        <div class="card-content">
+                            <textarea id="text-input" class="form-textarea" placeholder="Enter text to translate..." maxlength="5000"></textarea>
+                            <div class="input-actions">
+                                <button class="btn btn-secondary" id="clear-text">Clear</button>
+                                <button class="btn btn-secondary" id="paste-text">Paste</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Translation Settings</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="language-pair">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <select id="text-source-lang" class="form-select">
+                                        <option value="auto">🔍 Auto-detect</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="es">🇪🇸 Spanish</option>
+                                        <option value="fr">🇫🇷 French</option>
+                                        <option value="de">🇩🇪 German</option>
+                                        <option value="it">🇮🇹 Italian</option>
+                                        <option value="pt">🇵🇹 Portuguese</option>
+                                        <option value="ru">🇷🇺 Russian</option>
+                                        <option value="ja">🇯🇵 Japanese</option>
+                                        <option value="ko">🇰🇷 Korean</option>
+                                        <option value="zh-cn">🇨🇳 Chinese</option>
+                                        <option value="hi">🇮🇳 Hindi</option>
+                                        <option value="ar">🇸🇦 Arabic</option>
+                                        <option value="nl">🇳🇱 Dutch</option>
+                                        <option value="sv">🇸🇪 Swedish</option>
+                                    </select>
+                                </div>
+                                
+                                <button class="swap-btn" id="swap-languages">🔄</button>
+                                
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <select id="text-target-lang" class="form-select">
+                                        <option value="es">🇪🇸 Spanish</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="fr">🇫🇷 French</option>
+                                        <option value="de">🇩🇪 German</option>
+                                        <option value="it">🇮🇹 Italian</option>
+                                        <option value="pt">🇵🇹 Portuguese</option>
+                                        <option value="ru">🇷🇺 Russian</option>
+                                        <option value="ja">🇯🇵 Japanese</option>
+                                        <option value="ko">🇰🇷 Korean</option>
+                                        <option value="zh-cn">🇨🇳 Chinese</option>
+                                        <option value="hi">🇮🇳 Hindi</option>
+                                        <option value="ar">🇸🇦 Arabic</option>
+                                        <option value="nl">🇳🇱 Dutch</option>
+                                        <option value="sv">🇸🇪 Swedish</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-large" id="translate-text-btn" disabled>
+                                ⚡ Translate Text
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translation Result -->
+                <div class="output-section">
+                    <div class="card output-card">
+                        <div class="card-header">
+                            <h3>Translation Result</h3>
+                            <span class="language-badge language-badge-red" id="text-result-lang">Spanish</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="textarea-container">
+                                <textarea id="text-output" class="form-textarea" readonly placeholder="Translation will appear here..."></textarea>
+                                <div class="textarea-overlay hidden" id="text-loading">
+                                    <div class="loading-spinner"></div>
+                                    <span>Translating text...</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-secondary" id="copy-text-result" disabled>
+                                    📋 Copy
+                                </button>
+                                <button class="btn btn-primary" id="download-text-result" disabled>
+                                    ⬇️ Download TXT
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Translation Tab -->
+        <div class="tab-content" id="file-tab">
+            <div class="content-grid">
+                <div class="left-column">
+                    <!-- File Upload Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Upload File</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="upload-area" id="upload-area">
+                                <input type="file" id="file-input" accept=".txt,.srt,.vtt" style="display: none;">
+                                <div class="upload-content">
+                                    <div class="upload-icon">📄</div>
+                                    <p class="upload-text">Drop files here or click to browse</p>
+                                    <p class="upload-formats">Supports TXT, SRT, VTT files</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Translation Settings -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Translation Settings</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="language-pair">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <select id="file-source-lang" class="form-select">
+                                        <option value="auto">🔍 Auto-detect</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="es">🇪🇸 Spanish</option>
+                                        <option value="fr">🇫🇷 French</option>
+                                        <option value="de">🇩🇪 German</option>
+                                        <option value="it">🇮🇹 Italian</option>
+                                        <option value="pt">🇵🇹 Portuguese</option>
+                                        <option value="ru">🇷🇺 Russian</option>
+                                        <option value="ja">🇯🇵 Japanese</option>
+                                        <option value="ko">🇰🇷 Korean</option>
+                                        <option value="zh-cn">🇨🇳 Chinese</option>
+                                        <option value="hi">🇮🇳 Hindi</option>
+                                        <option value="ar">🇸🇦 Arabic</option>
+                                        <option value="nl">🇳🇱 Dutch</option>
+                                        <option value="sv">🇸🇪 Swedish</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <select id="file-target-lang" class="form-select">
+                                        <option value="es">🇪🇸 Spanish</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="fr">🇫🇷 French</option>
+                                        <option value="de">🇩🇪 German</option>
+                                        <option value="it">🇮🇹 Italian</option>
+                                        <option value="pt">🇵🇹 Portuguese</option>
+                                        <option value="ru">🇷🇺 Russian</option>
+                                        <option value="ja">🇯🇵 Japanese</option>
+                                        <option value="ko">🇰🇷 Korean</option>
+                                        <option value="zh-cn">🇨🇳 Chinese</option>
+                                        <option value="hi">🇮🇳 Hindi</option>
+                                        <option value="ar">🇸🇦 Arabic</option>
+                                        <option value="nl">🇳🇱 Dutch</option>
+                                        <option value="sv">🇸🇪 Swedish</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-large" id="translate-file-btn" disabled>
+                                ⚡ Translate File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Translation Output -->
+                <div class="output-section">
+                    <div class="card output-card">
+                        <div class="card-header">
+                            <h3>Translated File</h3>
+                            <span class="file-info" id="file-info">No file selected</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="textarea-container">
+                                <textarea id="file-output" class="form-textarea" readonly placeholder="Translated content will appear here..."></textarea>
+                                <div class="textarea-overlay hidden" id="file-loading">
+                                    <div class="loading-spinner"></div>
+                                    <span>Translating file...</span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn btn-secondary" id="copy-file-result" disabled>
+                                    📋 Copy
+                                </button>
+                                <button class="btn btn-primary" id="download-file-result" disabled>
+                                    ⬇️ Download File
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
